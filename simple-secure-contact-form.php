@@ -2,16 +2,27 @@
 /*
 Plugin Name: Simple Secure Contact Form
 Plugin URI: http://lp-tricks.com/
-Description: Plugin that shows the recent posts with thumbnails in the widget and in other parts of the your blog or theme with shortcodes.
-Tags: widget, posts, plugin, recent, recent posts, shortcode, thumbnail, thumbnails, categories, content, featured image, Taxonomy
-Version: 0.1
+Description: Simple Secure Contact Form display contact form widget in your widget area with "invisible" spam protection. No more spam, no more capcha!
+Tags: widget, contact, contacts, contact form, contact form 7, email, form, mail, spam, antispam, multilingual, plugin
+Version: 0.2
 Author: Eugene Holin
 Author URI: http://lp-tricks.com/
 License: GPLv2 or later
 Text Domain: lptw_contact_form_domain
 */
 
+/**
+ * Load plugin textdomain.
+ *
+ * @since 1.0.0
+ */
+add_action( 'plugins_loaded', 'lptw_contact_form_load_textdomain' );
+function lptw_contact_form_load_textdomain() {
+  load_plugin_textdomain( 'lptw_contact_form_domain', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
+}
+
 /* load js and css styles */
+add_action( 'wp_enqueue_scripts', 'lptw_contact_form_register_scripts' );
 function lptw_contact_form_register_scripts() {
 	wp_register_style( 'lptw-contact-form-style', plugins_url( 'css/simple-secure-contact-form.css', __FILE__ ) );
 	wp_enqueue_style( 'lptw-contact-form-style' );
@@ -26,23 +37,19 @@ function lptw_contact_form_register_scripts() {
     wp_enqueue_script('lptw-contact-form-script');
 }
 
-add_action( 'wp_enqueue_scripts', 'lptw_contact_form_register_scripts' );
-
 /* load js and css styles in admin area */
+add_action( 'admin_enqueue_scripts', 'lptw_contact_form_register_scripts_admin' );
 function lptw_contact_form_register_scripts_admin() {
 	wp_register_style( 'font-awesome', plugins_url( 'css/font-awesome.min.css', __FILE__ ) );
 	wp_enqueue_style( 'font-awesome' );
 }
-
-
-add_action( 'admin_enqueue_scripts', 'lptw_contact_form_register_scripts_admin' );
 
 // Creating the widget with fluid images
 class lptw_contact_form_widget extends WP_Widget {
 
     function __construct() {
 
-		$widget_ops = array('classname' => 'lptw_contact_form_widget', 'description' => __( "Simple and secure contact form wit invisible spam protection.", 'lptw_contact_form_domain') );
+		$widget_ops = array('classname' => 'lptw_contact_form_widget', 'description' => __( "Simple and secure contact form with invisible spam protection.", 'lptw_contact_form_domain') );
 		parent::__construct('lptw-contact-form-widget', __('Simple Secure Contact Form', 'lptw_contact_form_domain'), $widget_ops);
 		$this->alt_option_name = 'lptw_contact_form_widget_options';
 
@@ -77,10 +84,8 @@ class lptw_contact_form_widget extends WP_Widget {
 
 		$show_widget_title = isset( $instance['show_widget_title'] ) ? $instance['show_widget_title'] : true;
 
-		$title = ( ! empty( $instance['title'] ) ) ? $instance['title'] : __( 'Recent Posts', 'lptw_contact_form_domain' );
+		$title = ( ! empty( $instance['title'] ) ) ? $instance['title'] : __( 'Contact Form', 'lptw_contact_form_domain' );
 		$title = apply_filters( 'widget_title', $title, $instance, $this->id_base );
-
-		$show_widget_description = isset( $instance['show_widget_description'] ) ? $instance['show_widget_description'] : false;
 
 		$widget_description = apply_filters( 'widget_text', empty( $instance['widget_description'] ) ? '' : $instance['widget_description'], $instance );
 
@@ -122,11 +127,11 @@ class lptw_contact_form_widget extends WP_Widget {
 
 
 		<?php echo $args['before_widget']; ?>
-		<?php if ( $title && $show_widget_title == true) {
+		<?php if ( $title && $show_widget_title == true ) {
 			echo $args['before_title'] . $title . $args['after_title'];
 		} ?>
         <div class="form-wrapper" id="formwr-<?php echo rand(1000,9999); ?>">
-            <?php if ($show_widget_description == true) : ?>
+            <?php if ($widget_description != '') : ?>
             <p class="form-description"><?php echo !empty( $instance['filter'] ) ? wpautop( $widget_description ) : $widget_description; ?></p>
             <?php endif; ?>
             <form id="lptw-contact-form" id="form-<?php echo rand(1000,9999); ?>">
@@ -136,33 +141,33 @@ class lptw_contact_form_widget extends WP_Widget {
                 <?php wp_nonce_field( 'lptw-send-form-data' ); ?>
                 <?php if ($show_name_input == true) : ?>
         		<div class="input-wrapper <?php echo $input_wrapper_color; ?>">
-                    <input type="text" name="your-name" id="your-name" class="input-field" placeholder="Your name..." required>
-                    <label for="your-name" class="input-label <?php echo $input_label_color; ?>" title="Your name..."><i class="fa fa-user"></i></label>
+                    <input type="text" name="your-name" id="your-name" class="input-field" placeholder="<?php _ex( 'Your name...', 'input placeholder', 'lptw_contact_form_domain' ); ?>" required>
+                    <label for="your-name" class="input-label <?php echo $input_label_color; ?>" title="<?php _ex( 'Your name...', 'label title', 'lptw_contact_form_domain' ); ?>"><i class="fa fa-user"></i></label>
                 </div>
                 <?php endif; ?>
                 <?php if ($show_phone_input == true) : ?>
     		    <div class="input-wrapper <?php echo $input_wrapper_color; ?>">
-                    <input type="text" name="your-phone" id="your-phone" class="input-field" placeholder="Your phone..." required>
-                    <label for="your-phone" class="input-label <?php echo $input_label_color; ?>" title="Your phone"><i class="fa fa-phone"></i></label>
+                    <input type="text" name="your-phone" id="your-phone" class="input-field" placeholder="<?php _ex( 'Your phone...', 'input placeholder', 'lptw_contact_form_domain' ); ?>" required>
+                    <label for="your-phone" class="input-label <?php echo $input_label_color; ?>" title="<?php _ex( 'Your phone...', 'label title', 'lptw_contact_form_domain' ); ?>"><i class="fa fa-phone"></i></label>
                 </div>
                 <?php endif; ?>
                 <?php if ($show_email_input == true) : ?>
     			<div class="input-wrapper <?php echo $input_wrapper_color; ?>">
-                    <input type="text" name="your-email" id="your-email" class="input-field" placeholder="Your e-mail..." required>
-                    <label for="your-email" class="input-label <?php echo $input_label_color; ?>" title="Your e-mail"><i class="fa fa-envelope"></i></label>
+                    <input type="text" name="your-email" id="your-email" class="input-field" placeholder="<?php _ex( 'Your email...', 'input placeholder', 'lptw_contact_form_domain' ); ?>" required>
+                    <label for="your-email" class="input-label <?php echo $input_label_color; ?>" title="<?php _ex( 'Your email...', 'label title', 'lptw_contact_form_domain' ); ?>"><i class="fa fa-envelope"></i></label>
                 </div>
                 <?php endif; ?>
                 <?php if ($show_message_textarea == true) : ?>
     	    	<div class="textarea-wrapper <?php echo $textarea_wrapper_color; ?>" id="message-<?php echo rand(1000,9999); ?>">
                     <textarea name="your-message" id="lptw-your-message" class="input-area"></textarea>
-                    <label for="lptw-your-message" class="textarea-label <?php echo $textarea_label_color; ?>"><span class="label-icon <?php echo $label_icon_color; ?>"><i class="fa fa-comments-o"></i></span><span class="label-text">Write your message here...</span></label>
+                    <label for="lptw-your-message" class="textarea-label <?php echo $textarea_label_color; ?>"><span class="label-icon <?php echo $label_icon_color; ?>"><i class="fa fa-comments-o"></i></span><span class="label-text"><?php _ex( 'Write your message here...', 'textarea placeholder', 'lptw_contact_form_domain' ); ?></span></label>
                 </div>
                 <?php endif; ?>
-    		    <button type="submit" id="lptw-contact-form-submit" class="lptw-button <?php echo $button_color; ?>">Send message</button>
+    		    <button type="submit" id="lptw-contact-form-submit" class="lptw-button <?php echo $button_color; ?>"><?php _ex( 'Send message', 'button text', 'lptw_contact_form_domain' ); ?></button>
     		</form>
             <div class="lptw-round <?php echo $round_color; ?>"></div>
             <a href="#" class="close-send-mode">&times;</a>
-            <div class="after-send-text">Thank you for your message! We will answer you as soon as possible.</div>
+            <div class="after-send-text"><?php _e( 'Thank you for your message! We will answer you as soon as possible.', 'lptw_contact_form_domain' ); ?></div>
         </div>
 		<?php echo $args['after_widget']; ?>
 
@@ -184,10 +189,7 @@ class lptw_contact_form_widget extends WP_Widget {
         if ( isset( $instance[ 'show_widget_title' ] ) ) { $show_widget_title = (bool) $instance[ 'show_widget_title' ]; }
         else { $show_widget_title = true; }
 
-        if ( isset( $instance[ 'show_widget_description' ] ) ) { $show_widget_description = (bool) $instance[ 'show_widget_description' ]; }
-        else { $show_widget_description = false; }
-
-		$widget_description = esc_textarea($instance['widget_description']);
+    	$widget_description = esc_textarea($instance['widget_description']);
 
         if ( isset( $instance[ 'color_scheme' ] ) ) { $color_scheme = $instance[ 'color_scheme' ] ; }
         else { $color_scheme = 'red'; }
@@ -219,10 +221,8 @@ class lptw_contact_form_widget extends WP_Widget {
 		<p><input class="checkbox" type="checkbox" <?php checked( $show_widget_title ); ?> id="<?php echo $this->get_field_id( 'show_widget_title' ); ?>" name="<?php echo $this->get_field_name( 'show_widget_title' ); ?>" />
 		<label for="<?php echo $this->get_field_id( 'show_widget_title' ); ?>"><?php _e( 'Display widget title?', 'lptw_contact_form_domain' ); ?></label></p>
 
-		<p><input class="checkbox" type="checkbox" <?php checked( $show_widget_description ); ?> id="<?php echo $this->get_field_id( 'show_widget_description' ); ?>" name="<?php echo $this->get_field_name( 'show_widget_description' ); ?>" />
-		<label for="<?php echo $this->get_field_id( 'show_widget_description' ); ?>"><?php _e( 'Display widget description?', 'lptw_contact_form_domain' ); ?></label></p>
-
-		<textarea class="widefat" rows="3" cols="20" id="<?php echo $this->get_field_id('widget_description'); ?>" name="<?php echo $this->get_field_name('widget_description'); ?>"><?php echo $widget_description; ?></textarea>
+        <p><label for="<?php echo $this->get_field_id( 'widget_description' ); ?>"><?php _e( 'Description:', 'lptw_contact_form_domain' ); ?></label>
+		<textarea class="widefat" rows="3" cols="20" id="<?php echo $this->get_field_id('widget_description'); ?>" name="<?php echo $this->get_field_name('widget_description'); ?>"><?php echo $widget_description; ?></textarea></p>
         <hr>
 
 		<p><input class="checkbox" type="checkbox" <?php checked( $use_wp_admin_email ); ?> id="<?php echo $this->get_field_id( 'use_wp_admin_email' ); ?>" name="<?php echo $this->get_field_name( 'use_wp_admin_email' ); ?>" data-field="use_wp_admin_email" />
@@ -266,7 +266,6 @@ class lptw_contact_form_widget extends WP_Widget {
 		$instance = $old_instance;
 		$instance['title'] = strip_tags($new_instance['title']);
 		$instance['show_widget_title'] = isset( $new_instance['show_widget_title'] ) ? (bool) $new_instance['show_widget_title'] : false;
-		$instance['show_widget_description'] = isset( $new_instance['show_widget_description'] ) ? (bool) $new_instance['show_widget_description'] : false;
 
 		$instance['use_wp_admin_email'] = isset( $new_instance['use_wp_admin_email'] ) ? (bool) $new_instance['use_wp_admin_email'] : false;
    		$instance['custom_email'] = sanitize_email($new_instance['custom_email']);
@@ -328,9 +327,8 @@ function send_contact_form_data() {
     $admin_email = base64_decode($_POST['admin_email']);
     $bcc_email = base64_decode($_POST['bcc_email']);
 
-    $subject = 'New message from '.get_bloginfo('name');
+    $subject = _x( 'New message from', 'email subject', 'lptw_contact_form_domain' ).' '.get_bloginfo('name');
 
-    //$bcc_email = $_POST['bcc_email'];
     $contacts_name = $_POST['your-name'];
     $contacts_phone = $_POST['your-phone'];
     $contacts_email = $_POST['your-email'];
@@ -338,10 +336,10 @@ function send_contact_form_data() {
 
     $message = '';
 
-    if (!empty($contacts_name)) {$message .= '<p>Name: '.$contacts_name.'</p>'."\r\n";}
-    if (!empty($contacts_phone)) {$message .= '<p>Phone: '.$contacts_phone.'</p>'."\r\n";}
-    if (!empty($contacts_email)) {$message .= '<p>E-mail: '.$contacts_email.'</p>'."\r\n";}
-    if (!empty($contacts_message)) {$message .= '<p>Message: '.$contacts_message.'</p>'."\r\n";}
+    if (!empty($contacts_name)) {$message .= '<p>'._x( 'Name', 'email template', 'lptw_contact_form_domain' ).': '.$contacts_name.'</p>'."\r\n";}
+    if (!empty($contacts_phone)) {$message .= '<p>'._x( 'Phone', 'email template', 'lptw_contact_form_domain' ).': '.$contacts_phone.'</p>'."\r\n";}
+    if (!empty($contacts_email)) {$message .= '<p>'._x( 'E-mail', 'email template', 'lptw_contact_form_domain' ).': '.$contacts_email.'</p>'."\r\n";}
+    if (!empty($contacts_message)) {$message .= '<p>'._x( 'Message', 'email template', 'lptw_contact_form_domain' ).': '.$contacts_message.'</p>'."\r\n";}
 
     wp_mail( $admin_email, $subject, $message );
     if ( !empty($bcc_email) ) { wp_mail( $bcc_email, $subject, $message ); }

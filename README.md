@@ -14,3 +14,5 @@ License: GPLv2 or later
 - [Õ] Add flexible and simple customization to the widget
 - [ ] Add shordcode support
 - [ ] Improve animation in the form
+- [ ] Add integration with Google Analytics and Yandex Metrika
+- [ ] Add flexible customization of color schemes

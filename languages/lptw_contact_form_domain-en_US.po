@@ -1,0 +1,201 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Simple Secure Contact Form v0.2\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2015-04-09 17:36:37+0000\n"
+"Last-Translator: Eugene Holin <eholin@gmail.com>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: CSL v1.x\n"
+"X-Poedit-Language: English\n"
+"X-Poedit-Country: UNITED STATES\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-KeywordsList: __;_e;__ngettext:1,2;_n:1,2;__ngettext_noop:1,2;_n_noop:1,2;_c,_nc:4c,1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2;\n"
+"X-Poedit-Basepath: ../\n"
+"X-Poedit-Bookmarks: \n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Textdomain-Support: yes"
+
+#: simple-secure-contact-form.php:52
+#@ lptw_contact_form_domain
+msgid "Simple and secure contact form with invisible spam protection."
+msgstr "Simple and secure contact form with invisible spam protection."
+
+#: simple-secure-contact-form.php:53
+#: simple-secure-contact-form.php:187
+#@ lptw_contact_form_domain
+msgid "Simple Secure Contact Form"
+msgstr "Simple Secure Contact Form"
+
+#: simple-secure-contact-form.php:87
+#@ lptw_contact_form_domain
+msgid "Contact Form"
+msgstr "Contact Form"
+
+#: simple-secure-contact-form.php:144
+#@ lptw_contact_form_domain
+msgctxt "input placeholder"
+msgid "Your name..."
+msgstr "Your name..."
+
+#: simple-secure-contact-form.php:145
+#@ lptw_contact_form_domain
+msgctxt "label title"
+msgid "Your name..."
+msgstr "Your name..."
+
+#: simple-secure-contact-form.php:156
+#@ lptw_contact_form_domain
+msgctxt "input placeholder"
+msgid "Your email..."
+msgstr "Your email..."
+
+#: simple-secure-contact-form.php:157
+#@ lptw_contact_form_domain
+msgctxt "label title"
+msgid "Your email..."
+msgstr "Your email..."
+
+#: simple-secure-contact-form.php:163
+#@ lptw_contact_form_domain
+msgctxt "textarea placeholder"
+msgid "Write your message here..."
+msgstr "Write your message here..."
+
+#: simple-secure-contact-form.php:166
+#@ lptw_contact_form_domain
+msgctxt "button text"
+msgid "Send message"
+msgstr "Send message"
+
+#: simple-secure-contact-form.php:170
+#@ lptw_contact_form_domain
+msgid "Thank you for your message! We will answer you as soon as possible."
+msgstr "Thank you for your message! We will answer you as soon as possible."
+
+#: simple-secure-contact-form.php:218
+#@ lptw_contact_form_domain
+msgid "Title:"
+msgstr "Title:"
+
+#: simple-secure-contact-form.php:222
+#@ lptw_contact_form_domain
+msgid "Display widget title?"
+msgstr "Display widget title?"
+
+#: simple-secure-contact-form.php:224
+#@ lptw_contact_form_domain
+msgid "Description:"
+msgstr "Description:"
+
+#: simple-secure-contact-form.php:229
+#@ lptw_contact_form_domain
+msgid "Use site admin email for messages?"
+msgstr "Use site admin email for messages?"
+
+#: simple-secure-contact-form.php:231
+#@ lptw_contact_form_domain
+msgid "Custom email:"
+msgstr "Custom email:"
+
+#: simple-secure-contact-form.php:234
+#@ lptw_contact_form_domain
+msgid "BCC email:"
+msgstr "BCC email:"
+
+#: simple-secure-contact-form.php:238
+#@ lptw_contact_form_domain
+msgid "Display input for name?"
+msgstr "Display input for name?"
+
+#: simple-secure-contact-form.php:241
+#@ lptw_contact_form_domain
+msgid "Display input for phone?"
+msgstr "Display input for phone?"
+
+#: simple-secure-contact-form.php:244
+#@ lptw_contact_form_domain
+msgid "Display input for email?"
+msgstr "Display input for email?"
+
+#: simple-secure-contact-form.php:247
+#@ lptw_contact_form_domain
+msgid "Display textarea for message?"
+msgstr "Display textarea for message?"
+
+#: simple-secure-contact-form.php:250
+#@ lptw_contact_form_domain
+msgid "Color scheme:"
+msgstr "Color scheme:"
+
+#: simple-secure-contact-form.php:252
+#@ lptw_contact_form_domain
+msgid "Green"
+msgstr "Green"
+
+#: simple-secure-contact-form.php:253
+#@ lptw_contact_form_domain
+msgid "Red"
+msgstr "Red"
+
+#: simple-secure-contact-form.php:254
+#@ lptw_contact_form_domain
+msgid "Orange"
+msgstr "Orange"
+
+#: simple-secure-contact-form.php:255
+#@ lptw_contact_form_domain
+msgid "Light blue"
+msgstr "Light blue"
+
+#: simple-secure-contact-form.php:256
+#@ lptw_contact_form_domain
+msgid "Dark blue"
+msgstr "Dark blue"
+
+#: simple-secure-contact-form.php:330
+#@ lptw_contact_form_domain
+msgctxt "email subject"
+msgid "New message from"
+msgstr "New message from"
+
+#: simple-secure-contact-form.php:339
+#@ lptw_contact_form_domain
+msgctxt "email template"
+msgid "Name"
+msgstr "Name"
+
+#: simple-secure-contact-form.php:340
+#@ lptw_contact_form_domain
+msgctxt "email template"
+msgid "Phone"
+msgstr "Phone"
+
+#: simple-secure-contact-form.php:341
+#@ lptw_contact_form_domain
+msgctxt "email template"
+msgid "E-mail"
+msgstr "E-mail"
+
+#: simple-secure-contact-form.php:342
+#@ lptw_contact_form_domain
+msgctxt "email template"
+msgid "Message"
+msgstr "Message"
+
+#: simple-secure-contact-form.php:150
+#@ lptw_contact_form_domain
+msgctxt "input placeholder"
+msgid "Your phone..."
+msgstr "Your phone..."
+
+#: simple-secure-contact-form.php:151
+#@ lptw_contact_form_domain
+msgctxt "label title"
+msgid "Your phone..."
+msgstr "Your phone..."
+
