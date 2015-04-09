@@ -4,10 +4,13 @@ License: GPLv2 or later
 
 # Changelog
 
+## 0.2
+* Added flexible and simple customization for the widget
+
 ## 0.1
 * First release - only widget with simple contact form
 
 ## TODO
-- [ ] Add flexible and simple customization to widget
+- [Õ] Add flexible and simple customization to the widget
 - [ ] Add shordcode support
 - [ ] Improve animation in the form

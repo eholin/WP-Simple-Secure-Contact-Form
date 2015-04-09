@@ -28,6 +28,15 @@ function lptw_contact_form_register_scripts() {
 
 add_action( 'wp_enqueue_scripts', 'lptw_contact_form_register_scripts' );
 
+/* load js and css styles in admin area */
+function lptw_contact_form_register_scripts_admin() {
+	wp_register_style( 'font-awesome', plugins_url( 'css/font-awesome.min.css', __FILE__ ) );
+	wp_enqueue_style( 'font-awesome' );
+}
+
+
+add_action( 'admin_enqueue_scripts', 'lptw_contact_form_register_scripts_admin' );
+
 // Creating the widget with fluid images
 class lptw_contact_form_widget extends WP_Widget {
 
@@ -78,6 +87,29 @@ class lptw_contact_form_widget extends WP_Widget {
         if ( isset( $instance[ 'color_scheme' ] ) ) { $color_scheme = $instance[ 'color_scheme' ] ; }
         else { $color_scheme = 'red'; }
 
+		$use_wp_admin_email = isset( $instance['use_wp_admin_email'] ) ? $instance['use_wp_admin_email'] : false;
+
+        if ( isset( $instance[ 'custom_email' ] ) ) {
+            $custom_email = sanitize_email( $instance[ 'custom_email' ]) ;
+            $custom_email = base64_encode($custom_email);
+            }
+        if ( isset( $instance[ 'bcc_email' ] ) ) {
+            $bcc_email = sanitize_email( $instance[ 'bcc_email' ]) ;
+            $bcc_email = base64_encode($bcc_email);
+            }
+
+        if ($use_wp_admin_email == true) {
+            $admin_email = base64_encode(get_bloginfo('admin_email'));
+        }
+        else {
+            $admin_email = $custom_email;
+        }
+
+		$show_name_input = isset( $instance['show_name_input'] ) ? $instance['show_name_input'] : false;
+		$show_phone_input = isset( $instance['show_phone_input'] ) ? $instance['show_phone_input'] : false;
+		$show_email_input = isset( $instance['show_email_input'] ) ? $instance['show_email_input'] : false;
+		$show_message_textarea = isset( $instance['show_message_textarea'] ) ? $instance['show_message_textarea'] : false;
+
         $label_icon_color = 'label-icon-'.$color_scheme;
         $textarea_label_color = 'textarea-label-'.$color_scheme;
         $input_label_color = 'input-label-'.$color_scheme;
@@ -99,23 +131,33 @@ class lptw_contact_form_widget extends WP_Widget {
             <?php endif; ?>
             <form id="lptw-contact-form" id="form-<?php echo rand(1000,9999); ?>">
                 <input type="email" name="email">
+                <input type="hidden" name="admin_email" value="<?php echo $admin_email; ?>">
+                <input type="hidden" name="bcc_email" value="<?php echo $bcc_email; ?>">
                 <?php wp_nonce_field( 'lptw-send-form-data' ); ?>
+                <?php if ($show_name_input == true) : ?>
         		<div class="input-wrapper <?php echo $input_wrapper_color; ?>">
                     <input type="text" name="your-name" id="your-name" class="input-field" placeholder="Your name..." required>
                     <label for="your-name" class="input-label <?php echo $input_label_color; ?>" title="Your name..."><i class="fa fa-user"></i></label>
                 </div>
+                <?php endif; ?>
+                <?php if ($show_phone_input == true) : ?>
     		    <div class="input-wrapper <?php echo $input_wrapper_color; ?>">
                     <input type="text" name="your-phone" id="your-phone" class="input-field" placeholder="Your phone..." required>
                     <label for="your-phone" class="input-label <?php echo $input_label_color; ?>" title="Your phone"><i class="fa fa-phone"></i></label>
                 </div>
+                <?php endif; ?>
+                <?php if ($show_email_input == true) : ?>
     			<div class="input-wrapper <?php echo $input_wrapper_color; ?>">
                     <input type="text" name="your-email" id="your-email" class="input-field" placeholder="Your e-mail..." required>
                     <label for="your-email" class="input-label <?php echo $input_label_color; ?>" title="Your e-mail"><i class="fa fa-envelope"></i></label>
                 </div>
+                <?php endif; ?>
+                <?php if ($show_message_textarea == true) : ?>
     	    	<div class="textarea-wrapper <?php echo $textarea_wrapper_color; ?>" id="message-<?php echo rand(1000,9999); ?>">
                     <textarea name="your-message" id="lptw-your-message" class="input-area"></textarea>
                     <label for="lptw-your-message" class="textarea-label <?php echo $textarea_label_color; ?>"><span class="label-icon <?php echo $label_icon_color; ?>"><i class="fa fa-comments-o"></i></span><span class="label-text">Write your message here...</span></label>
                 </div>
+                <?php endif; ?>
     		    <button type="submit" id="lptw-contact-form-submit" class="lptw-button <?php echo $button_color; ?>">Send message</button>
     		</form>
             <div class="lptw-round <?php echo $round_color; ?>"></div>
@@ -150,6 +192,23 @@ class lptw_contact_form_widget extends WP_Widget {
         if ( isset( $instance[ 'color_scheme' ] ) ) { $color_scheme = $instance[ 'color_scheme' ] ; }
         else { $color_scheme = 'red'; }
 
+        if ( isset( $instance[ 'show_name_input' ] ) ) { $show_name_input = (bool) $instance[ 'show_name_input' ]; }
+        else { $show_name_input = true; }
+
+        if ( isset( $instance[ 'show_phone_input' ] ) ) { $show_phone_input = (bool) $instance[ 'show_phone_input' ]; }
+        else { $show_phone_input = true; }
+
+        if ( isset( $instance[ 'show_email_input' ] ) ) { $show_email_input = (bool) $instance[ 'show_email_input' ]; }
+        else { $show_email_input = true; }
+
+        if ( isset( $instance[ 'show_message_textarea' ] ) ) { $show_message_textarea = (bool) $instance[ 'show_message_textarea' ]; }
+        else { $show_message_textarea = true; }
+
+        if ( isset( $instance[ 'use_wp_admin_email' ] ) ) { $use_wp_admin_email = (bool) $instance[ 'use_wp_admin_email' ]; }
+        else { $use_wp_admin_email = false; }
+
+        if ( isset( $instance[ 'custom_email' ] ) ) { $custom_email = sanitize_email( $instance[ 'custom_email' ]) ; }
+        if ( isset( $instance[ 'bcc_email' ] ) ) { $bcc_email = sanitize_email( $instance[ 'bcc_email' ]) ; }
 
         // Widget admin form
         ?>
@@ -164,6 +223,28 @@ class lptw_contact_form_widget extends WP_Widget {
 		<label for="<?php echo $this->get_field_id( 'show_widget_description' ); ?>"><?php _e( 'Display widget description?', 'lptw_contact_form_domain' ); ?></label></p>
 
 		<textarea class="widefat" rows="3" cols="20" id="<?php echo $this->get_field_id('widget_description'); ?>" name="<?php echo $this->get_field_name('widget_description'); ?>"><?php echo $widget_description; ?></textarea>
+        <hr>
+
+		<p><input class="checkbox" type="checkbox" <?php checked( $use_wp_admin_email ); ?> id="<?php echo $this->get_field_id( 'use_wp_admin_email' ); ?>" name="<?php echo $this->get_field_name( 'use_wp_admin_email' ); ?>" data-field="use_wp_admin_email" />
+		<label for="<?php echo $this->get_field_id( 'use_wp_admin_email' ); ?>"><?php _e( 'Use site admin email for messages?', 'lptw_contact_form_domain' ); ?></label></p>
+
+        <label for="<?php echo $this->get_field_id( 'custom_email' ); ?>"><?php _e( 'Custom email:', 'lptw_contact_form_domain' ); ?></label>
+        <input class="widefat" id="<?php echo $this->get_field_id( 'custom_email' ); ?>" name="<?php echo $this->get_field_name( 'custom_email' ); ?>" type="text" value="<?php echo $custom_email; ?>" data-field="custom_email" />
+
+        <label for="<?php echo $this->get_field_id( 'bcc_email' ); ?>"><?php _e( 'BCC email:', 'lptw_contact_form_domain' ); ?></label>
+        <input class="widefat" id="<?php echo $this->get_field_id( 'bcc_email' ); ?>" name="<?php echo $this->get_field_name( 'bcc_email' ); ?>" type="text" value="<?php echo $bcc_email; ?>" />
+
+		<p><input class="checkbox" type="checkbox" <?php checked( $show_name_input ); ?> id="<?php echo $this->get_field_id( 'show_name_input' ); ?>" name="<?php echo $this->get_field_name( 'show_name_input' ); ?>" />
+		<label for="<?php echo $this->get_field_id( 'show_name_input' ); ?>"><i class="fa fa-user"></i>&nbsp;<?php _e( 'Display input for name?', 'lptw_contact_form_domain' ); ?></label></p>
+
+		<p><input class="checkbox" type="checkbox" <?php checked( $show_phone_input ); ?> id="<?php echo $this->get_field_id( 'show_phone_input' ); ?>" name="<?php echo $this->get_field_name( 'show_phone_input' ); ?>" />
+		<label for="<?php echo $this->get_field_id( 'show_phone_input' ); ?>"><i class="fa fa-phone"></i>&nbsp;<?php _e( 'Display input for phone?', 'lptw_contact_form_domain' ); ?></label></p>
+
+		<p><input class="checkbox" type="checkbox" <?php checked( $show_email_input ); ?> id="<?php echo $this->get_field_id( 'show_email_input' ); ?>" name="<?php echo $this->get_field_name( 'show_email_input' ); ?>" />
+		<label for="<?php echo $this->get_field_id( 'show_email_input' ); ?>"><i class="fa fa-envelope"></i>&nbsp;<?php _e( 'Display input for email?', 'lptw_contact_form_domain' ); ?></label></p>
+
+		<p><input class="checkbox" type="checkbox" <?php checked( $show_message_textarea ); ?> id="<?php echo $this->get_field_id( 'show_message_textarea' ); ?>" name="<?php echo $this->get_field_name( 'show_message_textarea' ); ?>" />
+		<label for="<?php echo $this->get_field_id( 'show_message_textarea' ); ?>"><i class="fa fa-comments-o"></i>&nbsp;<?php _e( 'Display textarea for message?', 'lptw_contact_form_domain' ); ?></label></p>
 
 		<p>
 			<label for="<?php echo $this->get_field_id('color_scheme'); ?>"><?php _e( 'Color scheme:', 'lptw_contact_form_domain' ); ?></label>
@@ -187,6 +268,10 @@ class lptw_contact_form_widget extends WP_Widget {
 		$instance['show_widget_title'] = isset( $new_instance['show_widget_title'] ) ? (bool) $new_instance['show_widget_title'] : false;
 		$instance['show_widget_description'] = isset( $new_instance['show_widget_description'] ) ? (bool) $new_instance['show_widget_description'] : false;
 
+		$instance['use_wp_admin_email'] = isset( $new_instance['use_wp_admin_email'] ) ? (bool) $new_instance['use_wp_admin_email'] : false;
+   		$instance['custom_email'] = sanitize_email($new_instance['custom_email']);
+   		$instance['bcc_email'] = sanitize_email($new_instance['bcc_email']);
+
 		if ( current_user_can('unfiltered_html') ) {
 			$instance['widget_description'] =  $new_instance['widget_description'];
         }
@@ -195,6 +280,11 @@ class lptw_contact_form_widget extends WP_Widget {
         }
 
 		$instance['color_scheme'] = strip_tags($new_instance['color_scheme']);
+
+		$instance['show_name_input'] = isset( $new_instance['show_name_input'] ) ? (bool) $new_instance['show_name_input'] : false;
+		$instance['show_phone_input'] = isset( $new_instance['show_phone_input'] ) ? (bool) $new_instance['show_phone_input'] : false;
+		$instance['show_email_input'] = isset( $new_instance['show_email_input'] ) ? (bool) $new_instance['show_email_input'] : false;
+		$instance['show_message_textarea'] = isset( $new_instance['show_message_textarea'] ) ? (bool) $new_instance['show_message_textarea'] : false;
 
 		$this->flush_widget_cache();
 
@@ -219,7 +309,6 @@ add_action( 'widgets_init', 'lptw_contact_form_load_widget' );
 
 /* add filter for letter format in html */
 add_filter( 'wp_mail_content_type', 'set_html_content_type' );
-
 function set_html_content_type( $content_type ) {
 	return 'text/html';
 }
@@ -236,10 +325,10 @@ function send_contact_form_data() {
 
     if ( !empty($_POST['email']) ) {die();}
 
-    $admin_email = get_bloginfo('admin_email');
+    $admin_email = base64_decode($_POST['admin_email']);
+    $bcc_email = base64_decode($_POST['bcc_email']);
 
     $subject = 'New message from '.get_bloginfo('name');
-    $headers = 'From: '.get_bloginfo('name').' <noreply@example.com>' . "\r\n";
 
     //$bcc_email = $_POST['bcc_email'];
     $contacts_name = $_POST['your-name'];
@@ -247,13 +336,15 @@ function send_contact_form_data() {
     $contacts_email = $_POST['your-email'];
     $contacts_message = $_POST['your-message'];
 
-    $message = '<p>Name: '.$contacts_name.'</p>'."\r\n";
-    $message .= '<p>Phone: '.$contacts_phone.'</p>'."\r\n";
-    $message .= '<p>E-mail: '.$contacts_email.'</p>'."\r\n";
-    $message .= '<p>Message: '.$contacts_message.'</p>'."\r\n";
+    $message = '';
+
+    if (!empty($contacts_name)) {$message .= '<p>Name: '.$contacts_name.'</p>'."\r\n";}
+    if (!empty($contacts_phone)) {$message .= '<p>Phone: '.$contacts_phone.'</p>'."\r\n";}
+    if (!empty($contacts_email)) {$message .= '<p>E-mail: '.$contacts_email.'</p>'."\r\n";}
+    if (!empty($contacts_message)) {$message .= '<p>Message: '.$contacts_message.'</p>'."\r\n";}
 
     wp_mail( $admin_email, $subject, $message );
-    if ( !empty($bcc_email) ) { wp_mail( $bcc_email, $subject, $message, $headers ); }
+    if ( !empty($bcc_email) ) { wp_mail( $bcc_email, $subject, $message ); }
     die();
 }
 
