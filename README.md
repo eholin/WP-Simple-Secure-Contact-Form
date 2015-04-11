@@ -1,4 +1,4 @@
-# WP-Simple_Secure-Contact-Form
+# WP Simple Secure Contact Form
 WordPress plugin that display display contact form widget in your widget area with "invisible" spam protection. No more spam, no more capcha!
 License: GPLv2 or later
 
@@ -11,7 +11,7 @@ License: GPLv2 or later
 * First release - only widget with simple contact form
 
 ## TODO
-- [Õ] Add flexible and simple customization to the widget
+- [x] Add flexible and simple customization to the widget
 - [ ] Add shordcode support
 - [ ] Improve animation in the form
 - [ ] Add integration with Google Analytics and Yandex Metrika
