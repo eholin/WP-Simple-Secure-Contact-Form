@@ -4,6 +4,11 @@ License: GPLv2 or later
 
 # Changelog
 
+## 0.2.3
+* Added header 'From' with WordPress domain and mailbox 'noreply' to email headers
+* Added Google Analytics form sumbit tracking support (ga method)
+* Added Yandex Metrika form sumbit tracking support (reachGoal method)
+
 ## 0.2.2
 * Fixed issue with escaped quotes in a message
 * Added customization for a widget button - button name

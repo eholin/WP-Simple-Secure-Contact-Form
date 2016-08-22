@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Simple Secure Contact Form v0.2.2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2015-12-08 16:22:53+0000\n"
+"PO-Revision-Date: 2016-08-18 15:08:17+0000\n"
 "Last-Translator: Eugene Holin <eholin@gmail.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -21,7 +21,7 @@ msgstr ""
 "X-Textdomain-Support: yes"
 
 #: simple-secure-contact-form.php:56
-#: simple-secure-contact-form.php:206
+#: simple-secure-contact-form.php:203
 #@ lptw_contact_form_domain
 msgid "Simple Secure Contact Form"
 msgstr "Простая и безопасная форма обратной связи"
@@ -67,111 +67,111 @@ msgstr "Отправить сообщение"
 msgid "Thank you for your message! We will answer you as soon as possible."
 msgstr "Спасибо за ваше сообщение! Мы обязательно свяжемся с вами в ближайшее время."
 
-#: simple-secure-contact-form.php:281
+#: simple-secure-contact-form.php:240
 #@ lptw_contact_form_domain
 msgid "Title:"
 msgstr "Заголовок:"
 
-#: simple-secure-contact-form.php:287
+#: simple-secure-contact-form.php:246
 #@ lptw_contact_form_domain
 msgid "Display widget title?"
 msgstr "Отображать заголовок виджета?"
 
-#: simple-secure-contact-form.php:291
+#: simple-secure-contact-form.php:250
 #@ lptw_contact_form_domain
 msgid "Description:"
 msgstr "Описание:"
 
-#: simple-secure-contact-form.php:298
+#: simple-secure-contact-form.php:257
 #@ lptw_contact_form_domain
 msgid "Use site admin email for messages?"
 msgstr "Отправлять сообщения на email администратора сайта?"
 
-#: simple-secure-contact-form.php:302
+#: simple-secure-contact-form.php:261
 #@ lptw_contact_form_domain
 msgid "Custom email:"
 msgstr "Основной email:"
 
-#: simple-secure-contact-form.php:307
+#: simple-secure-contact-form.php:266
 #@ lptw_contact_form_domain
 msgid "BCC email:"
 msgstr "Email для копии письма"
 
-#: simple-secure-contact-form.php:320
+#: simple-secure-contact-form.php:279
 #@ lptw_contact_form_domain
 msgid "Display input for name?"
 msgstr "Отображать поле ввода Имя?"
 
-#: simple-secure-contact-form.php:325
+#: simple-secure-contact-form.php:284
 #@ lptw_contact_form_domain
 msgid "Display input for phone?"
 msgstr "Отображать поле ввода Телефон?"
 
-#: simple-secure-contact-form.php:342
+#: simple-secure-contact-form.php:301
 #@ lptw_contact_form_domain
 msgid "Display input for email?"
 msgstr "Отображать поле ввода E-mail?"
 
-#: simple-secure-contact-form.php:348
+#: simple-secure-contact-form.php:307
 #@ lptw_contact_form_domain
 msgid "Display textarea for message?"
 msgstr "Отображать поле ввода для текста сообщения?"
 
-#: simple-secure-contact-form.php:353
+#: simple-secure-contact-form.php:312
 #@ lptw_contact_form_domain
 msgid "Color scheme:"
 msgstr "Цветовая схема:"
 
-#: simple-secure-contact-form.php:355
+#: simple-secure-contact-form.php:314
 #@ lptw_contact_form_domain
 msgid "Green"
 msgstr "Зеленая"
 
-#: simple-secure-contact-form.php:356
+#: simple-secure-contact-form.php:315
 #@ lptw_contact_form_domain
 msgid "Red"
 msgstr "Красная"
 
-#: simple-secure-contact-form.php:357
+#: simple-secure-contact-form.php:316
 #@ lptw_contact_form_domain
 msgid "Orange"
 msgstr "Оранжевая"
 
-#: simple-secure-contact-form.php:358
+#: simple-secure-contact-form.php:317
 #@ lptw_contact_form_domain
 msgid "Light blue"
 msgstr "Светло-голубая"
 
-#: simple-secure-contact-form.php:359
+#: simple-secure-contact-form.php:318
 #@ lptw_contact_form_domain
 msgid "Dark blue"
 msgstr "Темно-голубая"
 
-#: simple-secure-contact-form.php:453
+#: simple-secure-contact-form.php:426
 #@ lptw_contact_form_domain
 msgctxt "email subject"
 msgid "New message from"
 msgstr "Новое сообщение от"
 
-#: simple-secure-contact-form.php:464
+#: simple-secure-contact-form.php:443
 #@ lptw_contact_form_domain
 msgctxt "email template"
 msgid "Name"
 msgstr "Имя"
 
-#: simple-secure-contact-form.php:467
+#: simple-secure-contact-form.php:446
 #@ lptw_contact_form_domain
 msgctxt "email template"
 msgid "Phone"
 msgstr "Телефон"
 
-#: simple-secure-contact-form.php:470
+#: simple-secure-contact-form.php:449
 #@ lptw_contact_form_domain
 msgctxt "email template"
 msgid "E-mail"
 msgstr "E-mail"
 
-#: simple-secure-contact-form.php:473
+#: simple-secure-contact-form.php:452
 #@ lptw_contact_form_domain
 msgctxt "email template"
 msgid "Message"
@@ -199,63 +199,83 @@ msgctxt "label title"
 msgid "Your phone..."
 msgstr "Ваш телефон..."
 
-#: simple-secure-contact-form.php:312
+#: simple-secure-contact-form.php:271
 #@ lptw_contact_form_domain
 msgid "Message subject:"
 msgstr "Тема письма:"
 
-#: simple-secure-contact-form.php:330
+#: simple-secure-contact-form.php:289
 #@ lptw_contact_form_domain
 msgid "Phone mask:"
 msgstr "Маска для телефона:"
 
-#: simple-secure-contact-form.php:333
+#: simple-secure-contact-form.php:292
 #@ lptw_contact_form_domain
 msgid "The following mask definitions are predefined:"
 msgstr "Можно использовать следующие символы в маске:"
 
-#: simple-secure-contact-form.php:334
+#: simple-secure-contact-form.php:293
 #@ lptw_contact_form_domain
 msgid "Represents an alpha character"
 msgstr "любые буквы"
 
-#: simple-secure-contact-form.php:335
+#: simple-secure-contact-form.php:294
 #@ lptw_contact_form_domain
 msgid "Represents a numeric character"
 msgstr "любые цифры"
 
-#: simple-secure-contact-form.php:336
+#: simple-secure-contact-form.php:295
 #@ lptw_contact_form_domain
 msgid "Represents an alphanumeric character"
 msgstr "любые цифры или буквы"
 
-#: simple-secure-contact-form.php:364
+#: simple-secure-contact-form.php:323
 #@ lptw_contact_form_domain
 msgid "Message size:"
 msgstr "Размер сообщения:"
 
-#: simple-secure-contact-form.php:366
+#: simple-secure-contact-form.php:325
 #@ lptw_contact_form_domain
 msgid "Small"
 msgstr "Маленький"
 
-#: simple-secure-contact-form.php:367
+#: simple-secure-contact-form.php:326
 #@ lptw_contact_form_domain
 msgid "Normal"
 msgstr "Нормальный"
 
-#: simple-secure-contact-form.php:368
+#: simple-secure-contact-form.php:327
 #@ lptw_contact_form_domain
 msgid "Large"
 msgstr "Большой"
 
-#: simple-secure-contact-form.php:371
+#: simple-secure-contact-form.php:330
 #@ lptw_contact_form_domain
 msgid "Select size of a message font after email sending."
 msgstr "Выберите размер шрифта сообщения пользователю после отправки email."
 
-#: simple-secure-contact-form.php:374
+#: simple-secure-contact-form.php:333
 #@ lptw_contact_form_domain
 msgid "Button name:"
 msgstr "Надпись на кнопке:"
+
+#: simple-secure-contact-form.php:338
+#@ lptw_contact_form_domain
+msgid "GA Event Category:"
+msgstr "Категория события в Google Analytics"
+
+#: simple-secure-contact-form.php:342
+#@ lptw_contact_form_domain
+msgid "GA Event Action:"
+msgstr "Действие события в Google Analytics"
+
+#: simple-secure-contact-form.php:346
+#@ lptw_contact_form_domain
+msgid "GA Event Label:"
+msgstr "Ярлык события в Google Analytics"
+
+#: simple-secure-contact-form.php:349
+#@ lptw_contact_form_domain
+msgid "All about Events Tracking in Google Analytics"
+msgstr "Все об отслеживании событий в Google Analytics"
 

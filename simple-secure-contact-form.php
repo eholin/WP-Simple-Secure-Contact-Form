@@ -4,7 +4,7 @@ Plugin Name: Simple Secure Contact Form
 Plugin URI: http://lp-tricks.com/
 Description: Simple Secure Contact Form display contact form widget in your widget area with "invisible" spam protection. No more spam, no more capcha!
 Tags: widget, contact, contacts, contact form, contact form 7, email, form, mail, spam, antispam, multilingual, plugin
-Version: 0.2.2
+Version: 0.2.3
 Author: Eugene Holin
 Author URI: http://lp-tricks.com/
 License: GPLv2 or later
@@ -123,6 +123,11 @@ class lptw_contact_form_widget extends WP_Widget {
 		$message_subject = $instance['message_subject'];
 		$phone_mask = $instance['phone_mask'];
 		$message_size = isset( $instance['message_size'] ) ? $instance['message_size'] : 'normal';
+		$ga_eventCategory = isset( $instance['ga_eventCategory'] ) ? esc_attr( $instance['ga_eventCategory'] ) : '';
+		$ga_eventAction = isset( $instance['ga_eventAction'] ) ? esc_attr( $instance['ga_eventAction'] ) : '';
+		$ga_eventLabel = isset( $instance['ga_eventLabel'] ) ? esc_attr( $instance['ga_eventLabel'] ) : '';
+		$ym_counterID = isset( $instance['ym_counterID'] ) ? esc_attr( $instance['ym_counterID'] ) : '';
+		$ym_targetName = isset( $instance['ym_targetName'] ) ? esc_attr( $instance['ym_targetName'] ) : '';
 
 		$label_icon_color = 'label-icon-' . $color_scheme;
 		$textarea_label_color = 'textarea-label-' . $color_scheme;
@@ -139,7 +144,7 @@ class lptw_contact_form_widget extends WP_Widget {
 		<?php if ( $title && $show_widget_title == TRUE ) {
 			echo $args['before_title'] . $title . $args['after_title'];
 		} ?>
-		<div class="form-wrapper" id="formwr-<?php echo rand( 1000, 9999 ); ?>">
+		<div class="form-wrapper" id="formwr-<?php echo rand( 1000, 9999 ); ?>" data-eventcategory="<?php echo esc_attr( $ga_eventCategory ); ?>" data-eventaction="<?php echo esc_attr( $ga_eventAction ); ?>" data-eventlabel="<?php esc_attr( $ga_eventLabel ); ?>" data-counterid="<?php echo esc_attr( $ym_counterID ); ?>" data-targetname="<?php echo esc_attr( $ym_targetName ); ?>">
 			<?php if ( $widget_description != '' ) : ?>
 				<p class="form-description"><?php echo ! empty( $instance['filter'] ) ? wpautop( $widget_description ) : $widget_description; ?></p>
 			<?php endif; ?>
@@ -179,7 +184,7 @@ class lptw_contact_form_widget extends WP_Widget {
 					} else {
 						_ex( 'Send message', 'button text', 'lptw_contact_form_domain' );
 					}
-					?></button>
+					?><span class="lptw-button-spinner"><i class="fa fa-circle-o-notch fa-spin fa-fw"></i></span></button>
 			</form>
 			<div class="lptw-round <?php echo $round_color; ?>"></div>
 			<a href="#" class="close-send-mode">&times;</a>
@@ -200,80 +205,42 @@ class lptw_contact_form_widget extends WP_Widget {
 
 	/* --------------------------------- Widget Backend --------------------------------- */
 	public function form( $instance ) {
-		if ( isset( $instance['title'] ) ) {
-			$title = esc_attr( $instance['title'] );
-		} else {
-			$title = __( 'Simple Secure Contact Form', 'lptw_contact_form_domain' );
-		}
+		$title = ( isset( $instance['title'] ) ) ? esc_attr( $instance['title'] ) : __( 'Simple Secure Contact Form', 'lptw_contact_form_domain' );
 
-		if ( isset( $instance['show_widget_title'] ) ) {
-			$show_widget_title = (bool) $instance['show_widget_title'];
-		} else {
-			$show_widget_title = TRUE;
-		}
+		$show_widget_title = ( isset( $instance['show_widget_title'] ) ) ? (bool) $instance['show_widget_title'] : TRUE;
 
 		$widget_description = esc_textarea( $instance['widget_description'] );
 
-		if ( isset( $instance['color_scheme'] ) ) {
-			$color_scheme = $instance['color_scheme'];
-		} else {
-			$color_scheme = 'red';
-		}
+		$color_scheme = ( isset( $instance['color_scheme'] ) ) ? $instance['color_scheme'] : 'red';
 
-		if ( isset( $instance['show_name_input'] ) ) {
-			$show_name_input = (bool) $instance['show_name_input'];
-		} else {
-			$show_name_input = TRUE;
-		}
+		$show_name_input = ( isset( $instance['show_name_input'] ) ) ? (bool) $instance['show_name_input'] : TRUE;
 
-		if ( isset( $instance['show_phone_input'] ) ) {
-			$show_phone_input = (bool) $instance['show_phone_input'];
-		} else {
-			$show_phone_input = TRUE;
-		}
+		$show_phone_input = ( isset( $instance['show_phone_input'] ) ) ? (bool) $instance['show_phone_input'] : TRUE;
 
-		if ( isset( $instance['show_email_input'] ) ) {
-			$show_email_input = (bool) $instance['show_email_input'];
-		} else {
-			$show_email_input = TRUE;
-		}
+		$show_email_input = ( isset( $instance['show_email_input'] ) ) ? (bool) $instance['show_email_input'] : TRUE;
 
-		if ( isset( $instance['show_message_textarea'] ) ) {
-			$show_message_textarea = (bool) $instance['show_message_textarea'];
-		} else {
-			$show_message_textarea = TRUE;
-		}
+		$show_message_textarea = ( isset( $instance['show_message_textarea'] ) ) ? (bool) $instance['show_message_textarea'] : TRUE;
 
-		if ( isset( $instance['use_wp_admin_email'] ) ) {
-			$use_wp_admin_email = (bool) $instance['use_wp_admin_email'];
-		} else {
-			$use_wp_admin_email = FALSE;
-		}
+		$use_wp_admin_email = ( isset( $instance['use_wp_admin_email'] ) ) ? (bool) $instance['use_wp_admin_email'] : FALSE;
 
-		if ( isset( $instance['custom_email'] ) ) {
-			$custom_email = sanitize_email( $instance['custom_email'] );
-		}
-		if ( isset( $instance['bcc_email'] ) ) {
-			$bcc_email = sanitize_email( $instance['bcc_email'] );
-		}
+		$custom_email = ( isset( $instance['custom_email'] ) ) ? sanitize_email( $instance['custom_email'] ) : '';
 
-		if ( isset( $instance['button_name'] ) ) {
-			$button_name = esc_attr( $instance['button_name'] );
-		}
+		$bcc_email = ( isset( $instance['bcc_email'] ) ) ? sanitize_email( $instance['bcc_email'] ) : '';
 
-		if ( isset( $instance['message_subject'] ) ) {
-			$message_subject = esc_attr( $instance['message_subject'] );
-		}
+		$button_name = ( isset( $instance['button_name'] ) ) ? esc_attr( $instance['button_name'] ) : '';
 
-		if ( isset( $instance['phone_mask'] ) ) {
-			$phone_mask = esc_attr( $instance['phone_mask'] );
-		}
+		$message_subject = ( isset( $instance['message_subject'] ) ) ? esc_attr( $instance['message_subject'] ) : '';
 
-		if ( isset( $instance['message_size'] ) ) {
-			$message_size = $instance['message_size'];
-		} else {
-			$message_size = 'normal';
-		}
+		$phone_mask = ( isset( $instance['phone_mask'] ) ) ? esc_attr( $instance['phone_mask'] ) : '';
+
+		$message_size = ( isset( $instance['message_size'] ) ) ? $instance['message_size'] : 'normal';
+
+		$ga_eventCategory = ( isset( $instance['ga_eventCategory'] ) ) ? esc_attr( $instance['ga_eventCategory'] ) : '';
+		$ga_eventAction = ( isset( $instance['ga_eventAction'] ) ) ? esc_attr( $instance['ga_eventAction'] ) : '';
+		$ga_eventLabel = ( isset( $instance['ga_eventLabel'] ) ) ? esc_attr( $instance['ga_eventLabel'] ) : '';
+
+		$ym_counterID = ( isset( $instance['ym_counterID'] ) ) ? esc_attr( $instance['ym_counterID'] ) : '';
+		$ym_targetName = ( isset( $instance['ym_targetName'] ) ) ? esc_attr( $instance['ym_targetName'] ) : '';
 
 		// Widget admin form
 		?>
@@ -374,7 +341,34 @@ class lptw_contact_form_widget extends WP_Widget {
 			<label for="<?php echo $this->get_field_id( 'button_name' ); ?>"><?php _e( 'Button name:', 'lptw_contact_form_domain' ); ?></label>
 			<input class="widefat" id="<?php echo $this->get_field_id( 'button_name' ); ?>" name="<?php echo $this->get_field_name( 'button_name' ); ?>" type="text" value="<?php echo $button_name; ?>" data-field="button_name"/>
 		</p>
-
+		<hr>
+		<p>
+			<label for="<?php echo $this->get_field_id( 'ga_eventCategory' ); ?>"><?php _e( 'GA Event Category:', 'lptw_contact_form_domain' ); ?></label>
+			<input class="widefat" id="<?php echo $this->get_field_id( 'ga_eventCategory' ); ?>" name="<?php echo $this->get_field_name( 'ga_eventCategory' ); ?>" type="text" value="<?php echo $ga_eventCategory; ?>" data-field="ga_eventCategory"/>
+		</p>
+		<p>
+			<label for="<?php echo $this->get_field_id( 'ga_eventAction' ); ?>"><?php _e( 'GA Event Action:', 'lptw_contact_form_domain' ); ?></label>
+			<input class="widefat" id="<?php echo $this->get_field_id( 'ga_eventAction' ); ?>" name="<?php echo $this->get_field_name( 'ga_eventAction' ); ?>" type="text" value="<?php echo $ga_eventAction; ?>" data-field="ga_eventAction"/>
+		</p>
+		<p>
+			<label for="<?php echo $this->get_field_id( 'ga_eventLabel' ); ?>"><?php _e( 'GA Event Label:', 'lptw_contact_form_domain' ); ?></label>
+			<input class="widefat" id="<?php echo $this->get_field_id( 'ga_eventLabel' ); ?>" name="<?php echo $this->get_field_name( 'ga_eventLabel' ); ?>" type="text" value="<?php echo $ga_eventLabel; ?>" data-field="ga_eventLabel"/>
+		</p>
+		<p class="description">
+			<a href="https://support.google.com/analytics/answer/1033068?hl=en" target="_blank"><?php _e( 'All about Events Tracking in Google Analytics', 'lptw_contact_form_domain' ); ?></a>
+		</p>
+		<hr>
+		<p>
+			<label for="<?php echo $this->get_field_id( 'ym_counterID' ); ?>"><?php _e( 'YM Counter ID:', 'lptw_contact_form_domain' ); ?></label>
+			<input class="widefat" id="<?php echo $this->get_field_id( 'ym_counterID' ); ?>" name="<?php echo $this->get_field_name( 'ym_counterID' ); ?>" type="text" value="<?php echo $ym_counterID; ?>" data-field="ym_counterID"/>
+		</p>
+		<p>
+			<label for="<?php echo $this->get_field_id( 'ym_targetName' ); ?>"><?php _e( 'YM Target Name:', 'lptw_contact_form_domain' ); ?></label>
+			<input class="widefat" id="<?php echo $this->get_field_id( 'ym_targetName' ); ?>" name="<?php echo $this->get_field_name( 'ym_targetName' ); ?>" type="text" value="<?php echo $ym_targetName; ?>" data-field="ym_targetName"/>
+		</p>
+		<p class="description">
+			<a href="https://yandex.ru/support/metrika/objects/reachgoal.xml" target="_blank"><?php _e( 'All about form submit tracking in Yandex.Metrika', 'lptw_contact_form_domain' ); ?></a>
+		</p>
 		<?php
 	}
 
@@ -403,6 +397,12 @@ class lptw_contact_form_widget extends WP_Widget {
 		$instance['show_message_textarea'] = isset( $new_instance['show_message_textarea'] ) ? (bool) $new_instance['show_message_textarea'] : FALSE;
 
 		$instance['message_size'] = isset( $new_instance['message_size'] ) ? $new_instance['message_size'] : 'normal';
+
+		$instance['ga_eventCategory'] = isset( $new_instance['ga_eventCategory'] ) ? $new_instance['ga_eventCategory'] : '';
+		$instance['ga_eventAction'] = isset( $new_instance['ga_eventAction'] ) ? $new_instance['ga_eventAction'] : '';
+		$instance['ga_eventLabel'] = isset( $new_instance['ga_eventLabel'] ) ? $new_instance['ga_eventLabel'] : '';
+		$instance['ym_counterID'] = isset( $new_instance['ym_counterID'] ) ? $new_instance['ym_counterID'] : '';
+		$instance['ym_targetName'] = isset( $new_instance['ym_targetName'] ) ? $new_instance['ym_targetName'] : '';
 
 		$this->flush_widget_cache();
 
@@ -458,6 +458,12 @@ function send_contact_form_data() {
 	$contacts_email = $_POST['your-email'];
 	$contacts_message = $_POST['your-message'];
 
+	$home_url = home_url();
+	$home_url = str_replace( 'http://', '', $home_url );
+	$home_url = str_replace( 'https://', '', $home_url );
+	$home_url = str_replace( 'www.', '', $home_url );
+	$headers[] = 'From: ' . $home_url . ' <noreply@' . $home_url . '>';
+
 	$message = '';
 
 	if ( ! empty( $contacts_name ) ) {
@@ -473,9 +479,9 @@ function send_contact_form_data() {
 		$message .= '<p>' . _x( 'Message', 'email template', 'lptw_contact_form_domain' ) . ': ' . esc_textarea( stripslashes( $contacts_message ) ) . '</p>' . "\r\n";
 	}
 
-	wp_mail( $admin_email, $subject, $message );
+	wp_mail( $admin_email, $subject, $message, $headers );
 	if ( ! empty( $bcc_email ) ) {
-		wp_mail( $bcc_email, $subject, $message );
+		wp_mail( $bcc_email, $subject, $message, $headers );
 	}
 	die();
 }

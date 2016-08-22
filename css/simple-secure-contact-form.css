@@ -55,6 +55,7 @@
 	-ms-transform: translate(-50%, -50%);
 	transform: translate(-50%, -50%);
 	font-size: 1.5em;
+	line-height: 1;
 }
 
 .after-send-text.lptw-ast-large {
@@ -406,4 +407,9 @@
 
 .lptw_contact_form_widget input[type="email"] {
 	display: none;
+}
+
+.lptw-button-spinner {
+	display: none;
+	margin-left: 15px;
 }
